@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\AuthController; // Đảm bảo đã import đúng 
 // Nhóm các API liên quan đến xác thực (Authentication)
 // Các route này không yêu cầu người dùng phải đăng nhập trước
 Route::prefix('auth')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
 
