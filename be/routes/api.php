@@ -27,5 +27,10 @@ Route::prefix('auth')->group(function () {
 // Nhóm các API cần xác thực (Protected routes)
 // Các route trong nhóm này yêu cầu người dùng phải gửi kèm token hợp lệ
 Route::middleware('auth:sanctum')->group(function () {
-    
+    // API liên quan đến người dùng đã đăng nhập (User Profile)
+    Route::prefix('user')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']); // Đăng xuất
+        // Thêm các route khác liên quan đến người dùng ở đây, ví dụ:
+        // Route::put('/profile', [UserController::class, 'updateProfile']);
+    });
 });

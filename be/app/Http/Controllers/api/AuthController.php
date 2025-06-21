@@ -86,4 +86,21 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ], 201);
     }
+
+    /**
+     * Đăng xuất người dùng (thu hồi token hiện tại).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Đăng xuất thành công'
+        ]);
+    }
+
+   
 }
