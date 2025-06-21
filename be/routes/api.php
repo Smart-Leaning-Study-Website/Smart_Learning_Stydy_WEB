@@ -35,3 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
         // Route::put('/profile', [UserController::class, 'updateProfile']);
     });
 });
+// Api Url 
+// http://localhost:8000/api/auth/login <=> Login(POST)
+// http://localhost:8000/api/auth/register <=> Register(POST)
+// http://localhost:8000/api/user <=> Info(GET)
+// http://localhost:8000/api/user/logout <=> Logout(POST)
