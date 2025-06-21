@@ -102,5 +102,16 @@ class AuthController extends Controller
         ]);
     }
 
-   
+    /**
+     * Lấy thông tin người dùng đang đăng nhập.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user(),
+        ]);
+    }
 }

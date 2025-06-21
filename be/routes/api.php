@@ -29,6 +29,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // API liên quan đến người dùng đã đăng nhập (User Profile)
     Route::prefix('user')->group(function () {
+        Route::get('/', [AuthController::class, 'me']); // Lấy thông tin người dùng hiện tại
         Route::post('/logout', [AuthController::class, 'logout']); // Đăng xuất
         // Thêm các route khác liên quan đến người dùng ở đây, ví dụ:
         // Route::put('/profile', [UserController::class, 'updateProfile']);
