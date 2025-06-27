@@ -43,4 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed', // Laravel 10+ tự động hash password khi gán
     ];
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'enrollments')
+                ->withPivot('enrolled_at')
+                ->withTimestamps();
+    }
 }

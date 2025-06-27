@@ -1,34 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react'
+import HomePage from './pages/HomePage'
+import MyCoursesPage from './pages/MyCoursesPage'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentPage, setCurrentPage] = useState('home');
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      {/* Demo Navigation - Có thể xóa sau khi test xong */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        background: '#333', 
+        color: 'white', 
+        padding: '10px', 
+        zIndex: 1000,
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '20px'
+      }}>
+        <button 
+          onClick={() => setCurrentPage('home')}
+          style={{ 
+            background: currentPage === 'home' ? '#667eea' : '#555',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Trang chủ
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <button 
+          onClick={() => setCurrentPage('my-courses')}
+          style={{ 
+            background: currentPage === 'my-courses' ? '#667eea' : '#555',
+            color: 'white',
+            border: 'none',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Khóa học của tôi
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      {/* Main Content */}
+      <div style={{ marginTop: '60px' }}>
+        {currentPage === 'home' ? <HomePage /> : <MyCoursesPage />}
+      </div>
+    </div>
   )
 }
 

@@ -3,6 +3,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\AuthController; // Đảm bảo đã import đúng namespace
 
 /*
@@ -34,6 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
         // Thêm các route khác liên quan đến người dùng ở đây, ví dụ:
         // Route::put('/profile', [UserController::class, 'updateProfile']);
     });
+
+    Route::get('/my-courses', [CourseController::class, 'myCourses']);
 });
 // Api Url 
 // http://localhost:8000/api/auth/login <=> Login(POST)
