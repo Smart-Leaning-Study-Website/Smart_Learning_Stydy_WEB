@@ -1,252 +1,198 @@
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { apiService } from '../services/apiService';
-import './HomePage.css';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const [featuredCourses, setFeaturedCourses] = useState([]);
-  const [stats, setStats] = useState({
-    totalCourses: 0,
-    totalStudents: 0,
-    totalInstructors: 0
-  });
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    loadHomeData();
-  }, []);
-
-  const loadHomeData = async () => {
-    try {
-      setLoading(true);
-      
-      // Load featured courses
-      const coursesData = await apiService.get('/courses?featured=1&limit=6');
-      setFeaturedCourses(coursesData);
-      
-      // Load statistics (nếu có API)
-      try {
-        const statsData = await apiService.get('/stats');
-        setStats(statsData);
-      } catch (error) {
-        // Fallback data nếu API chưa có
-        setStats({
-          totalCourses: 150,
-          totalStudents: 2500,
-          totalInstructors: 45
-        });
-      }
-      
-    } catch (error) {
-      console.error('Lỗi tải dữ liệu trang chủ:', error);
-    } finally {
-      setLoading(false);
+  // Dữ liệu mẫu
+  const featuredCourses = [
+    {
+      id: 1,
+      title: "Học JavaScript cơ bản",
+      description: "Khóa học giúp bạn nắm vững nền tảng JavaScript từ con số 0.",
+      isJS: true
+    },
+    {
+      id: 2,
+      title: "Lập trình Web cơ bản",
+      description: "Học HTML, CSS, JavaScript từ cơ bản đến nâng cao",
+    },
+    {
+      id: 3,
+      title: "React.js cho người mới bắt đầu",
+      description: "Xây dựng ứng dụng web hiện đại với React",
+    },
+    {
+      id: 4,
+      title: "Laravel Framework",
+      description: "Phát triển backend với Laravel PHP",
     }
-  };
+  ];
 
-  const handleCourseClick = (courseId) => {
-    // Có thể dùng React Router để navigate
-    window.location.href = `/course/${courseId}`;
+  const stats = {
+    totalCourses: 150,
+    totalStudents: 2500,
+    totalInstructors: 45
   };
-
-  const handleGetStarted = () => {
-    window.location.href = '/register';
-  };
-
-  if (loading) {
-    return (
-      <Layout title="Trang chủ - Smart Learning">
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Đang tải...</p>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
-    <Layout title="Trang chủ - Smart Learning">
+    <div style={{
+      maxWidth: 1100,
+      margin: '0 auto',
+      padding: 24,
+      fontFamily: 'Segoe UI, Arial, sans-serif',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e9eefa 100%)',
+      minHeight: '100vh'
+    }}>
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <h1 className="hero-title">
-            Học tập thông minh, 
-            <span className="highlight"> Tương lai tươi sáng</span>
-          </h1>
-          <p className="hero-description">
-            Khám phá hàng trăm khóa học chất lượng cao từ các chuyên gia hàng đầu. 
-            Học mọi lúc, mọi nơi với nền tảng học tập thông minh của chúng tôi.
-          </p>
-          <div className="hero-buttons">
-            <button className="btn-primary" onClick={handleGetStarted}>
-              Bắt đầu học ngay
-            </button>
-            <button className="btn-secondary">
-              Xem khóa học
-            </button>
-          </div>
-        </div>
-        <div className="hero-image">
-          <div className="hero-placeholder">
-            <span>🎓</span>
-            <p>Smart Learning</p>
-          </div>
-        </div>
+      <section style={{
+        textAlign: 'center',
+        marginBottom: 48,
+        padding: '40px 0 24px 0',
+        background: 'linear-gradient(90deg, #667eea 0%, #5a67d8 100%)',
+        borderRadius: 16,
+        color: 'white',
+        boxShadow: '0 4px 24px #b3b3e6'
+      }}>
+        <h1 style={{ fontSize: 40, margin: 0, fontWeight: 700 }}>
+          Học tập thông minh, <span style={{ color: '#ffd700' }}>Tương lai tươi sáng</span>
+        </h1>
+        <p style={{ fontSize: 20, color: '#e0e7ff', margin: '18px 0 0 0' }}>
+          Khám phá hàng trăm khóa học chất lượng cao từ các chuyên gia hàng đầu.<br />
+          Học mọi lúc, mọi nơi với nền tảng học tập thông minh của chúng tôi.
+        </p>
+        <button
+          style={{
+            background: '#ffd700',
+            color: '#333',
+            border: 'none',
+            padding: '14px 38px',
+            borderRadius: 8,
+            fontSize: 20,
+            fontWeight: 600,
+            cursor: 'pointer',
+            marginTop: 28,
+            boxShadow: '0 2px 8px #aaa',
+            transition: 'background 0.2s'
+          }}
+          onMouseOver={e => e.target.style.background = '#ffe066'}
+          onMouseOut={e => e.target.style.background = '#ffd700'}
+        >
+          Bắt đầu học ngay
+        </button>
       </section>
 
       {/* Stats Section */}
-      <section className="stats-section">
-        <div className="stats-grid">
-          <div className="stat-item">
-            <div className="stat-number">{stats.totalCourses}+</div>
-            <div className="stat-label">Khóa học</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">{stats.totalStudents}+</div>
-            <div className="stat-label">Học viên</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">{stats.totalInstructors}+</div>
-            <div className="stat-label">Giảng viên</div>
-          </div>
+      <section style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 60,
+        marginBottom: 48,
+        flexWrap: 'wrap'
+      }}>
+        <div style={{
+          background: '#fff',
+          borderRadius: 12,
+          boxShadow: '0 2px 8px #e0e7ff',
+          padding: '24px 36px',
+          textAlign: 'center',
+          minWidth: 160
+        }}>
+          <div style={{ fontSize: 32, fontWeight: 'bold', color: '#667eea' }}>{stats.totalCourses}+</div>
+          <div style={{ color: '#555', fontSize: 18 }}>Khóa học</div>
+        </div>
+        <div style={{
+          background: '#fff',
+          borderRadius: 12,
+          boxShadow: '0 2px 8px #e0e7ff',
+          padding: '24px 36px',
+          textAlign: 'center',
+          minWidth: 160
+        }}>
+          <div style={{ fontSize: 32, fontWeight: 'bold', color: '#667eea' }}>{stats.totalStudents}+</div>
+          <div style={{ color: '#555', fontSize: 18 }}>Học viên</div>
+        </div>
+        <div style={{
+          background: '#fff',
+          borderRadius: 12,
+          boxShadow: '0 2px 8px #e0e7ff',
+          padding: '24px 36px',
+          textAlign: 'center',
+          minWidth: 160
+        }}>
+          <div style={{ fontSize: 32, fontWeight: 'bold', color: '#667eea' }}>{stats.totalInstructors}+</div>
+          <div style={{ color: '#555', fontSize: 18 }}>Giảng viên</div>
         </div>
       </section>
 
       {/* Featured Courses */}
-      <section className="featured-courses">
-        <div className="section-header">
-          <h2>Khóa học nổi bật</h2>
-          <p>Những khóa học được yêu thích nhất</p>
-        </div>
-        
-        <div className="courses-grid">
-          {featuredCourses.length > 0 ? (
-            featuredCourses.map(course => (
-              <div 
-                key={course.id} 
-                className="course-card"
-                onClick={() => handleCourseClick(course.id)}
+      <section>
+        <h2 style={{
+          textAlign: 'center',
+          marginBottom: 32,
+          fontSize: 28,
+          color: '#333',
+          fontWeight: 700
+        }}>Khóa học nổi bật</h2>
+        <div style={{
+          display: 'flex',
+          gap: 32,
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        }}>
+          {featuredCourses.map(course => (
+            <div
+              key={course.id}
+              style={{
+                border: 'none',
+                borderRadius: 14,
+                padding: 28,
+                width: 300,
+                background: 'white',
+                boxShadow: '0 4px 16px #e0e7ff',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer'
+              }}
+              onMouseOver={e => {
+                e.currentTarget.style.transform = 'translateY(-8px) scale(1.03)';
+                e.currentTarget.style.boxShadow = '0 8px 32px #b3b3e6';
+              }}
+              onMouseOut={e => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = '0 4px 16px #e0e7ff';
+              }}
+            >
+              <div style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 10, color: '#5a67d8' }}>{course.title}</div>
+              <div style={{ color: '#555', marginBottom: 18 }}>{course.description}</div>
+              <button
+                style={{
+                  background: course.isJS ? '#ffd700' : '#667eea',
+                  color: course.isJS ? '#333' : 'white',
+                  border: 'none',
+                  padding: '10px 24px',
+                  borderRadius: 6,
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: 16,
+                  boxShadow: '0 2px 8px #aaa',
+                  transition: 'background 0.2s'
+                }}
+                onMouseOver={e => e.target.style.background = course.isJS ? '#ffe066' : '#5a67d8'}
+                onMouseOut={e => e.target.style.background = course.isJS ? '#ffd700' : '#667eea'}
+                onClick={() => {
+                  if (course.isJS) {
+                    navigate('/watch-video/1'); // 1 là id video JS trong database
+                  }
+                }}
               >
-                <div className="course-image">
-                  <img 
-                    src={course.image || '/default-course.jpg'} 
-                    alt={course.title}
-                    onError={(e) => {
-                      e.target.src = '/default-course.jpg';
-                    }}
-                  />
-                  <div className="course-overlay">
-                    <span className="view-more">Xem chi tiết</span>
-                  </div>
-                </div>
-                <div className="course-content">
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
-                  <div className="course-meta">
-                    <span className="price">Miễn phí</span>
-                    <span className="rating">⭐ 4.8</span>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            // Fallback courses nếu API chưa có dữ liệu
-            [
-              {
-                id: 1,
-                title: "Lập trình Web cơ bản",
-                description: "Học HTML, CSS, JavaScript từ cơ bản đến nâng cao",
-                image: null
-              },
-              {
-                id: 2,
-                title: "React.js cho người mới bắt đầu",
-                description: "Xây dựng ứng dụng web hiện đại với React",
-                image: null
-              },
-              {
-                id: 3,
-                title: "Laravel Framework",
-                description: "Phát triển backend với Laravel PHP",
-                image: null
-              }
-            ].map(course => (
-              <div 
-                key={course.id} 
-                className="course-card"
-                onClick={() => handleCourseClick(course.id)}
-              >
-                <div className="course-image">
-                  <div className="course-placeholder">
-                    <span>📚</span>
-                  </div>
-                  <div className="course-overlay">
-                    <span className="view-more">Xem chi tiết</span>
-                  </div>
-                </div>
-                <div className="course-content">
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
-                  <div className="course-meta">
-                    <span className="price">Miễn phí</span>
-                    <span className="rating">⭐ 4.8</span>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-        
-        <div className="view-all-courses">
-          <button className="btn-outline">
-            Xem tất cả khóa học
-          </button>
+                {course.isJS ? 'Học JS ngay' : 'Xem chi tiết'}
+              </button>
+            </div>
+          ))}
         </div>
       </section>
-
-      {/* Features Section */}
-      <section className="features-section">
-        <div className="section-header">
-          <h2>Tại sao chọn Smart Learning?</h2>
-          <p>Những lý do khiến chúng tôi trở thành lựa chọn hàng đầu</p>
-        </div>
-        
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">🎯</div>
-            <h3>Học tập cá nhân hóa</h3>
-            <p>Lộ trình học tập được thiết kế riêng cho từng học viên</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">📱</div>
-            <h3>Học mọi lúc mọi nơi</h3>
-            <p>Truy cập từ bất kỳ thiết bị nào, online hoặc offline</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">👥</div>
-            <h3>Cộng đồng học tập</h3>
-            <p>Kết nối với bạn bè và giảng viên trong cộng đồng</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">🏆</div>
-            <h3>Chứng chỉ uy tín</h3>
-            <p>Nhận chứng chỉ được công nhận bởi các tổ chức hàng đầu</p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="cta-section">
-        <div className="cta-content">
-          <h2>Sẵn sàng bắt đầu hành trình học tập?</h2>
-          <p>Tham gia cùng hàng nghìn học viên đã thành công</p>
-          <button className="btn-primary" onClick={handleGetStarted}>
-            Đăng ký miễn phí ngay
-          </button>
-        </div>
-      </section>
-    </Layout>
+    </div>
   );
 }
 
-export default HomePage; 
+export default HomePage;

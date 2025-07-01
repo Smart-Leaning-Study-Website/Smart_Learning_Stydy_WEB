@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\AuthController; // Đảm bảo đã import đúng namespace
+use App\Http\Controllers\Api\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/my-courses', [CourseController::class, 'myCourses']);
 });
-// Api Url 
+
+// Route lấy danh sách video và chi tiết video
+Route::get('/videos', [VideoController::class, 'index']);
+Route::get('/videos/{id}', [VideoController::class, 'show']);
+
+// Api Url
 // http://localhost:8000/api/auth/login <=> Login(POST)
 // http://localhost:8000/api/auth/register <=> Register(POST)
 // http://localhost:8000/api/user <=> Info(GET)
